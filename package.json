@@ -1,0 +1,35 @@
+{
+  "name": "task-manager-learning",
+  "version": "1.0.0",
+  "description": "A learning-focused Task Manager REST API built with Node.js and Express.",
+  "main": "src/server.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "start:cli": "node src/index.js",
+    "test": "node --test",
+    "check": "node --check src/server.js && node --check src/taskController.js && node --check src/taskService.js"
+  },
+  "keywords": [
+    "javascript",
+    "nodejs",
+    "express",
+    "rest-api",
+    "learning-project"
+  ],
+  "author": "nhidinhny",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nhidinhny/task-manager-learning.git"
+  },
+  "homepage": "https://github.com/nhidinhny/task-manager-learning#readme",
+  "type": "module",
+  "dependencies": {
+    "express": "^5.2.1",
+    "pg": "^8.22.0"
+  }
+}

@@ -1,0 +1,23 @@
+# Local learning notes and repository instructions
+/docs/**/*.md
+/syllabus.md
+/AGENTS.md
+
+# Dependencies
+/node_modules/
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+
+# Test and build output
+/coverage/
+/dist/
+/build/
+
+# Logs and local tooling
+*.log
+.DS_Store
+.idea/
+.vscode/
