@@ -1,4 +1,4 @@
-# Pre-fresher Task Manager
+# Task Manager
 
 A learning project that grows from JavaScript fundamentals into a
 full-stack task management application. The current stable version provides a
