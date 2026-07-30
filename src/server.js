@@ -1,11 +1,11 @@
 import express from "express";
 import {
-    getTasks,
-    createTaskController,
-    getTaskByIdController,
-    completeTaskController,
-    updateTaskTitleController,
-    deleteTaskController
+  getTasks,
+  createTaskController,
+  getTaskByIdController,
+  completeTaskController,
+  updateTaskTitleController,
+  deleteTaskController
 } from "./taskController.js";
 
 const app = express();
@@ -29,14 +29,14 @@ app.patch("/tasks/:id", updateTaskTitleController);
 app.delete("/tasks/:id", deleteTaskController);
 
 app.use((error, request, response, next) => {
-    const status =
-        error.message === "Task not found" ? 404 : 400;
+  const status =
+    error.message === "Task not found" ? 404 : 400;
 
-    response.status(status).json({
-        message: error.message
-    });
+  response.status(status).json({
+    message: error.message
+  });
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`);
+  console.log(`Server is running at http://localhost:${PORT}`);
 });

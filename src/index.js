@@ -1,21 +1,21 @@
 import {
-    completeTask,
-    createTask,
-    findTaskById,
-    getPendingTasks,
-    getAllTasks,
-    getTaskTitles,
-    getPendingTaskTitles,
-    deleteTask
+  completeTask,
+  createTask,
+  findTaskById,
+  getPendingTasks,
+  getAllTasks,
+  getTaskTitles,
+  getPendingTaskTitles,
+  deleteTask
 } from "./taskService.js";
 
 const firstTask = createTask("Learn JavaScript");
 console.log("First task:", firstTask);
 
 try {
-    createTask("     ");
+  createTask("     ");
 } catch (error) {
-    console.error("Could not create task:", error.message);
+  console.error("Could not create task:", error.message);
 }
 
 createTask("Learn React");
@@ -32,9 +32,9 @@ console.log("After completion:", findTaskById(2));
 console.log("Find a missing ID:", findTaskById(999));
 
 try {
-    completeTask(999);
+  completeTask(999);
 } catch (error) {
-    console.error("Could not complete task:", error.message);
+  console.error("Could not complete task:", error.message);
 }
 
 console.log("Pending tasks:", getPendingTasks());
@@ -50,7 +50,7 @@ console.log("Deleted task:", deleteTask(2));
 console.log("All tasks after deletion:", getAllTasks());
 
 try {
-    deleteTask(999);
+  deleteTask(999);
 } catch (error) {
-    console.error("Could not delete task:", error.message);
+  console.error("Could not delete task:", error.message);
 }
