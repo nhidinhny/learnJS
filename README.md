@@ -29,8 +29,8 @@ REST API built with Node.js and Express, with an in-memory service layer.
 Requirements: Node.js 18 or newer.
 
 ```bash
-git clone https://github.com/nhidinhny/task-manager-learning.git
-cd task-manager-learning
+git clone https://github.com/nhidinhny/learnJS.git
+cd learnJS
 npm install
 npm run dev
 ```
@@ -57,11 +57,15 @@ npm run check
 ## Project structure
 
 ```text
+migrations/
+└── 001_create_tasks.sql # Create the PostgreSQL tasks table
 src/
-├── server.js          # Express routes and middleware
-├── taskController.js  # HTTP request/response handling
-├── taskService.js     # Validation and business logic
-└── index.js           # Original command-line learning demo
+├── db.js                # PostgreSQL connection pool
+├── index.js             # Original command-line learning demo
+├── server.js            # Express routes and middleware
+├── taskController.js    # HTTP request/response handling
+├── taskRepository.js    # PostgreSQL task queries
+└── taskService.js       # Validation and business logic
 test/
 └── taskService.test.js
 ```

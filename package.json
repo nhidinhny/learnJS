@@ -24,9 +24,9 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nhidinhny/task-manager-learning.git"
+    "url": "git+https://github.com/nhidinhny/learnJS.git"
   },
-  "homepage": "https://github.com/nhidinhny/task-manager-learning#readme",
+  "homepage": "https://github.com/nhidinhny/learnJS#readme",
   "type": "module",
   "dependencies": {
     "express": "^5.2.1",
