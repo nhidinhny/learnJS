@@ -1,11 +1,12 @@
 import {
-  getAllTasks as getAllTasksFromRepository
+  getAllTasks as getAllTasksFromRepository,
+  createTask as createTaskInRepository,
 } from "./taskRepository.js";
 
 const tasks = [];
 let nextId = 1;
 
-function createTask(title) {
+async function createTask(title) {
   if (typeof title !== "string") {
     throw new Error("Title must be a string");
   }
@@ -15,16 +16,14 @@ function createTask(title) {
     throw new Error("Title must not be empty");
   }
 
-  const task = {
-    id: nextId,
-    title: normalizedTitle,
-    completed: false,
-    createdAt: new Date().toISOString()
-  };
+  const newTaskFromDb = await createTaskInRepository(normalizedTitle);
 
-  tasks.push(task);
-  nextId += 1;
-  return task;
+  return {
+    id: newTaskFromDb.id,
+    title: newTaskFromDb.title,
+    completed: newTaskFromDb.completed,
+    createdAt: newTaskFromDb.created_at
+  };
 }
 
 async function getAllTasks() {

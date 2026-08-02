@@ -16,9 +16,9 @@ async function getTasks(request, response, next) {
   }
 }
 
-function createTaskController(request, response, next) {
+async function createTaskController(request, response, next) {
   try {
-    const task = createTask(request.body.title);
+    const task = await createTask(request.body.title);
     response.status(201).json(task);
   } catch (error) {
     next(error);
