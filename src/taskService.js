@@ -1,3 +1,7 @@
+import {
+  getAllTasks as getAllTasksFromRepository
+} from "./taskRepository.js";
+
 const tasks = [];
 let nextId = 1;
 
@@ -23,8 +27,15 @@ function createTask(title) {
   return task;
 }
 
-function getAllTasks() {
-  return tasks;
+async function getAllTasks() {
+  const tasksFromDb = await getAllTasksFromRepository();
+  return tasksFromDb.map((task) => ({
+    id: task.id,
+    title: task.title,
+    completed: task.completed,
+    createdAt: task.created_at
+  }
+  ));
 }
 
 function findTaskById(id) {

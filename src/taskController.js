@@ -7,9 +7,13 @@ import {
   deleteTask
 } from "./taskService.js";
 
-function getTasks(request, response) {
-  const tasks = getAllTasks();
-  response.json(tasks);
+async function getTasks(request, response, next) {
+  try {
+    const tasks = await getAllTasks();
+    response.json(tasks);
+  } catch (error) {
+    next(error);
+  }
 }
 
 function createTaskController(request, response, next) {
