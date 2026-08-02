@@ -25,10 +25,10 @@ async function createTaskController(request, response, next) {
   }
 }
 
-function getTaskByIdController(request, response, next) {
+async function getTaskByIdController(request, response, next) {
   try {
     const id = Number(request.params.id);
-    const task = findTaskById(id);
+    const task = await findTaskById(id);
 
     if (!task) {
       throw new Error("Task not found");
@@ -40,10 +40,10 @@ function getTaskByIdController(request, response, next) {
   }
 }
 
-function completeTaskController(request, response, next) {
+async function completeTaskController(request, response, next) {
   try {
     const id = Number(request.params.id);
-    const task = completeTask(id);
+    const task = await completeTask(id);
 
     response.json(task);
   } catch (error) {
@@ -51,11 +51,11 @@ function completeTaskController(request, response, next) {
   }
 }
 
-function updateTaskTitleController(request, response, next) {
+async function updateTaskTitleController(request, response, next) {
   try {
     const id = Number(request.params.id);
     const newTitle = request.body.title;
-    const task = updateTaskTitle(id, newTitle);
+    const task = await updateTaskTitle(id, newTitle);
 
     response.json(task);
   } catch (error) {
@@ -63,10 +63,10 @@ function updateTaskTitleController(request, response, next) {
   }
 }
 
-function deleteTaskController(request, response, next) {
+async function deleteTaskController(request, response, next) {
   try {
     const id = Number(request.params.id);
-    const task = deleteTask(id);
+    const task = await deleteTask(id);
 
     response.json(task);
   } catch (error) {

@@ -1,6 +1,10 @@
 import {
   getAllTasks as getAllTasksFromRepository,
   createTask as createTaskInRepository,
+  getTaskById as getTaskByIdFromRepository,
+  completeTask as completeTaskInRepository,
+  deleteTask as deleteTaskInRepository,
+  updateTaskTitle as updateTaskTitleInRepository
 } from "./taskRepository.js";
 
 const tasks = [];
@@ -37,27 +41,43 @@ async function getAllTasks() {
   ));
 }
 
-function findTaskById(id) {
-  return tasks.find((task) => task.id === id);
+async function findTaskById(id) {
+  const taskFromDb = await getTaskByIdFromRepository(id);
+
+  if (!taskFromDb) {
+    return undefined;
+  }
+
+  return {
+    id: taskFromDb.id,
+    title: taskFromDb.title,
+    completed: taskFromDb.completed,
+    createdAt: taskFromDb.created_at
+  };
 }
 
-function completeTask(id) {
-  const task = findTaskById(id);
+async function completeTask(id) {
+  const taskFromDb = await completeTaskInRepository(id);
 
-  if (!task) {
+  if (!taskFromDb) {
     throw new Error("Task not found");
   }
 
-  task.completed = true;
-  return task;
+  return {
+    id: taskFromDb.id,
+    title: taskFromDb.title,
+    completed: taskFromDb.completed,
+    createdAt: taskFromDb.created_at
+  };
 }
 
 function getPendingTasks() {
   return tasks.filter((task) => task.completed === false);
 }
 
-function getTaskTitles() {
-  return tasks.map((task) => task.title);
+async function getTaskTitles() {
+  const tasksFromDb = await getAllTasksFromRepository();
+  return tasksFromDb.map((task) => task.title);
 }
 
 function getPendingTaskTitles() {
@@ -66,37 +86,44 @@ function getPendingTaskTitles() {
     .map((task) => task.title);
 }
 
-function deleteTask(id) {
-  const index = tasks.findIndex((task) => task.id === id);
+async function deleteTask(id) {
+  const taskFromDb = await deleteTaskInRepository(id);
 
-  if (index === -1) {
+  if (!taskFromDb) {
     throw new Error("Task not found");
   }
 
-  const removedItems = tasks.splice(index, 1);
-
-  return removedItems[0];
+  return {
+    id: taskFromDb.id,
+    title: taskFromDb.title,
+    completed: taskFromDb.completed,
+    createdAt: taskFromDb.created_at
+  };
 }
 
-function updateTaskTitle(id, newTitle) {
-  const task = findTaskById(id);
-
-  if (!task) {
-    throw new Error("Task not found");
-  }
+async function updateTaskTitle(id, newTitle) {
 
   if (typeof newTitle !== "string") {
     throw new Error("Title must be a string");
   }
 
   const normalizedTitle = newTitle.trim();
-
   if (normalizedTitle === "") {
     throw new Error("Title must not be empty");
   }
 
-  task.title = normalizedTitle;
-  return task;
+  const taskFromDb = await updateTaskTitleInRepository(id, normalizedTitle);
+
+  if (!taskFromDb) {
+    throw new Error("Task not found");
+  }
+
+  return {
+    id: taskFromDb.id,
+    title: taskFromDb.title,
+    completed: taskFromDb.completed,
+    createdAt: taskFromDb.created_at
+  };
 }
 
 export {
@@ -108,5 +135,5 @@ export {
   getTaskTitles,
   getPendingTaskTitles,
   deleteTask,
-  updateTaskTitle
+  updateTaskTitle,
 };
