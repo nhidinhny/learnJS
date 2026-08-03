@@ -5,7 +5,7 @@ import {
   getTaskByIdController,
   completeTaskController,
   updateTaskTitleController,
-  deleteTaskController
+  deleteTaskController,
 } from "./taskController.js";
 
 const app = express();
@@ -13,7 +13,7 @@ app.use(express.json());
 const PORT = 7777;
 
 app.get("/health", (request, response) => {
-    response.json({ status: "ok" });
+  response.json({ status: "ok" });
 });
 
 app.get("/tasks", getTasks);

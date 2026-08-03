@@ -1,5 +1,5 @@
 import {
-  getAllTasks,
+  listTasks,
   createTask,
   findTaskById,
   completeTask,
@@ -7,24 +7,34 @@ import {
   deleteTask
 } from "./taskService.js";
 
-function getTasks(request, response) {
-  const tasks = getAllTasks();
-  response.json(tasks);
+async function getTasks(request, response, next) {
+  try {
+    const tasks = await listTasks({
+      completed: request.query.completed,
+      sort: request.query.sort,
+      page: request.query.page,
+      limit: request.query.limit
+    });
+
+    response.json(tasks);
+  } catch (error) {
+    next(error);
+  }
 }
 
-function createTaskController(request, response, next) {
+async function createTaskController(request, response, next) {
   try {
-    const task = createTask(request.body.title);
+    const task = await createTask(request.body.title);
     response.status(201).json(task);
   } catch (error) {
     next(error);
   }
 }
 
-function getTaskByIdController(request, response, next) {
+async function getTaskByIdController(request, response, next) {
   try {
     const id = Number(request.params.id);
-    const task = findTaskById(id);
+    const task = await findTaskById(id);
 
     if (!task) {
       throw new Error("Task not found");
@@ -36,10 +46,10 @@ function getTaskByIdController(request, response, next) {
   }
 }
 
-function completeTaskController(request, response, next) {
+async function completeTaskController(request, response, next) {
   try {
     const id = Number(request.params.id);
-    const task = completeTask(id);
+    const task = await completeTask(id);
 
     response.json(task);
   } catch (error) {
@@ -47,11 +57,11 @@ function completeTaskController(request, response, next) {
   }
 }
 
-function updateTaskTitleController(request, response, next) {
+async function updateTaskTitleController(request, response, next) {
   try {
     const id = Number(request.params.id);
     const newTitle = request.body.title;
-    const task = updateTaskTitle(id, newTitle);
+    const task = await updateTaskTitle(id, newTitle);
 
     response.json(task);
   } catch (error) {
@@ -59,10 +69,10 @@ function updateTaskTitleController(request, response, next) {
   }
 }
 
-function deleteTaskController(request, response, next) {
+async function deleteTaskController(request, response, next) {
   try {
     const id = Number(request.params.id);
-    const task = deleteTask(id);
+    const task = await deleteTask(id);
 
     response.json(task);
   } catch (error) {
@@ -76,5 +86,5 @@ export {
   getTaskByIdController,
   completeTaskController,
   updateTaskTitleController,
-  deleteTaskController
+  deleteTaskController,
 };
