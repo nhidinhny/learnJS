@@ -1,5 +1,5 @@
 import {
-  getAllTasks,
+  listTasks,
   createTask,
   findTaskById,
   completeTask,
@@ -9,7 +9,13 @@ import {
 
 async function getTasks(request, response, next) {
   try {
-    const tasks = await getAllTasks();
+    const tasks = await listTasks({
+      completed: request.query.completed,
+      sort: request.query.sort,
+      page: request.query.page,
+      limit: request.query.limit
+    });
+
     response.json(tasks);
   } catch (error) {
     next(error);
@@ -80,5 +86,5 @@ export {
   getTaskByIdController,
   completeTaskController,
   updateTaskTitleController,
-  deleteTaskController
+  deleteTaskController,
 };

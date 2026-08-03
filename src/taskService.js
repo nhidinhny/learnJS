@@ -1,14 +1,19 @@
 import {
-  getAllTasks as getAllTasksFromRepository,
   createTask as createTaskInRepository,
   getTaskById as getTaskByIdFromRepository,
   completeTask as completeTaskInRepository,
   deleteTask as deleteTaskInRepository,
-  updateTaskTitle as updateTaskTitleInRepository
+  updateTaskTitle as updateTaskTitleInRepository,
+  listTasks as listTasksFromRepository,
 } from "./taskRepository.js";
 
 const tasks = [];
 let nextId = 1;
+
+// Keep this wrapper temporarily for older callers such as src/index.js.
+async function getAllTasks() {
+  return listTasks();
+}
 
 async function createTask(title) {
   if (typeof title !== "string") {
@@ -30,15 +35,67 @@ async function createTask(title) {
   };
 }
 
-async function getAllTasks() {
-  const tasksFromDb = await getAllTasksFromRepository();
+async function listTasks({
+  completed,
+  sort = "asc",
+  page,
+  limit
+} = {}) {
+  // Validate the requested sorting direction.
+  if (sort !== "asc" && sort !== "desc") {
+    throw new Error("sort must be asc or desc");
+  }
+
+  let completedBoolean;
+
+  // Query parameters are strings, so convert completed to a boolean.
+  if (completed !== undefined) {
+    if (completed !== "true" && completed !== "false") {
+      throw new Error("completed must be true or false");
+    }
+
+    completedBoolean = completed === "true";
+  }
+
+  const hasPagination =
+    page !== undefined || limit !== undefined;
+
+  let limitNumber;
+  let offset;
+
+  if (hasPagination) {
+    // page and limit must be supplied together.
+    if (page === undefined || limit === undefined) {
+      throw new Error("page and limit must be provided together");
+    }
+
+    const pageNumber = Number(page);
+    limitNumber = Number(limit);
+
+    if (!Number.isInteger(pageNumber) || pageNumber < 1) {
+      throw new Error("page must be a positive integer");
+    }
+
+    if (!Number.isInteger(limitNumber) || limitNumber < 1) {
+      throw new Error("limit must be a positive integer");
+    }
+
+    offset = (pageNumber - 1) * limitNumber;
+  }
+
+  const tasksFromDb = await listTasksFromRepository({
+    completed: completedBoolean,
+    sortOrder: sort === "desc" ? "DESC" : "ASC",
+    limit: limitNumber,
+    offset
+  });
+
   return tasksFromDb.map((task) => ({
     id: task.id,
     title: task.title,
     completed: task.completed,
     createdAt: task.created_at
-  }
-  ));
+  }));
 }
 
 async function findTaskById(id) {
@@ -76,7 +133,7 @@ function getPendingTasks() {
 }
 
 async function getTaskTitles() {
-  const tasksFromDb = await getAllTasksFromRepository();
+  const tasksFromDb = await listTasksFromRepository();
   return tasksFromDb.map((task) => task.title);
 }
 
@@ -127,8 +184,8 @@ async function updateTaskTitle(id, newTitle) {
 }
 
 export {
+  listTasks,
   createTask,
-  getAllTasks,
   findTaskById,
   completeTask,
   getPendingTasks,
