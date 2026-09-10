@@ -1,0 +1,132 @@
+main {
+  padding: 0 24px 64px;
+  text-align: left;
+}
+
+header {
+  text-align: center;
+}
+
+.summary {
+  font-size: 16px;
+  margin-top: -16px;
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: 24px 0 40px;
+}
+
+.filters button,
+.toggle {
+  font: inherit;
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 8px 16px;
+  color: var(--text-h);
+  background: var(--social-bg);
+  border: 1px solid var(--border);
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.filters button:hover,
+.toggle:hover {
+  border-color: var(--accent-border);
+}
+
+.filters button.active {
+  color: var(--accent);
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--bg);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.card:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+
+.poster {
+  aspect-ratio: 2 / 3;
+  display: flex;
+  align-items: flex-end;
+  padding: 16px;
+  position: relative;
+}
+
+.poster-title {
+  font-size: 20px;
+  margin: 0;
+  font-weight: 500;
+  line-height: 120%;
+  color: #fff;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+}
+
+.poster-0 { background: linear-gradient(160deg, #4c1d95, #db2777); }
+.poster-1 { background: linear-gradient(160deg, #0f766e, #84cc16); }
+.poster-2 { background: linear-gradient(160deg, #1e3a8a, #38bdf8); }
+.poster-3 { background: linear-gradient(160deg, #7c2d12, #f59e0b); }
+.poster-4 { background: linear-gradient(160deg, #581c87, #6366f1); }
+.poster-5 { background: linear-gradient(160deg, #164e63, #10b981); }
+
+.badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+}
+
+.card-body {
+  padding: 16px;
+}
+
+.meta {
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+}
+
+.toggle {
+  width: 100%;
+}
+
+.toggle.watched {
+  color: var(--accent);
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+}
+
+.empty {
+  text-align: center;
+  padding: 48px 0;
+}
